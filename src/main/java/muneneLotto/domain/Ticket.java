@@ -1,6 +1,10 @@
 package muneneLotto.domain;
 
-import java.util.Date;
+
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +20,8 @@ public class Ticket {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long TicketID;
 	
-	private Date dateTicketPurchase;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = Shape.STRING)
+	private LocalDateTime dateTicketPurchase;
 
 	@ManyToOne
 	@JoinColumn(name = "player_id")
@@ -24,16 +29,17 @@ public class Ticket {
 	
 	private String selectedNumbers;
 	
+	public Ticket() {
+		
+	}
 	
 	//constructor
-	public Ticket(Long ticketID, Date dateTicketPurchase, Player player, String selectedNumbers) {
+	public Ticket(LocalDateTime dateTicketPurchase, String selectedNumbers, Player player) {
 		super();
-		TicketID = ticketID;
 		this.dateTicketPurchase = dateTicketPurchase;
 		this.player = player;
 		this.selectedNumbers = selectedNumbers;
 	}
-	
 
 	//getters setters
 	public Long getTicketID() {
@@ -44,20 +50,21 @@ public class Ticket {
 		TicketID = ticketID;
 	}
 
-	public Date getDateTicketPurchase() {
-		return dateTicketPurchase;
-	}
-
-	public void setDateTicketPurchase(Date dateTicketPurchase) {
-		this.dateTicketPurchase = dateTicketPurchase;
-	}
-
+	
 	public Player getPlayer() {
 		return player;
 	}
 
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+
+	public LocalDateTime getDateTicketPurchase() {
+		return dateTicketPurchase;
+	}
+
+	public void setDateTicketPurchase(LocalDateTime dateTicketPurchase) {
+		this.dateTicketPurchase = dateTicketPurchase;
 	}
 
 	public String getSelectedNumbers() {
@@ -69,4 +76,10 @@ public class Ticket {
 	}
 
 
+	@Override
+	public String toString() {
+		return "Ticket [TicketID=" + TicketID + ", dateTicketPurchase=" + dateTicketPurchase + ", selectedNumbers="
+				+ selectedNumbers + "]";
+	}
+	
 }
